@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Common;
+using System.Data;
 
 namespace VegetPriceDAL
 {
@@ -12,6 +13,12 @@ namespace VegetPriceDAL
             var sTab = "tbl_VegetPrice";
 
             return SqlServerHelper.BulkToDB(CONN_STR, dt, sTab, out sErr);
+        }
+
+        public static byte[] GetExcelBytes(DataTable dt)
+        {
+            var bys = EPPExcelHelper.BuilderExcel(dt);
+            return bys;
         }
     }
 }
