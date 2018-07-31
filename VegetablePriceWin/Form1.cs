@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using VegetPriceBLL;
+using VegetPriceBLL.comm;
 using VegetPriceDAL;
 
 namespace VegetablePriceWin
@@ -23,21 +25,27 @@ namespace VegetablePriceWin
         {
             InitializeComponent();
             mCollector = new VegetPriceCollector(MARKET_URL);
+            btnExport.Enabled = false;
         }
 
         private void btnGet_Click(object sender, EventArgs e)
         {
-            var dtBegin = dtpBegin.Value;
-            var dtEnd = dtpEnd.Value;
-            if(dtBegin > dtEnd)
+            DataTable dt = null;
+            WaitDlg.Show(this, () =>
             {
-                var dtTemp = dtBegin;
-                dtBegin = dtEnd;
-                dtEnd = dtTemp;
-            }
-            this.Cursor = Cursors.WaitCursor;
-            var dt = mCollector.GetByDateRange(dtBegin, dtEnd);
-            this.Cursor = Cursors.Default;
+                var dtBegin = dtpBegin.Value;                
+                var dtEnd = dtpEnd.Value;                
+                if (dtBegin > dtEnd)
+                {
+                    var dtTemp = dtBegin;
+                    dtBegin = dtEnd;
+                    dtEnd = dtTemp;
+                }
+                dtBegin = new DateTime(dtBegin.Year, dtBegin.Month, dtBegin.Day);
+                dtEnd = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day).AddDays(1).AddSeconds(-1);
+
+                dt = mCollector.GetByDateRange(dtBegin, dtEnd);                
+            });
 
             RefreshView(dt);
         }
@@ -52,10 +60,10 @@ namespace VegetablePriceWin
                             .Select(r => new { name = r[VegetPriceCollector.COL_NAME] })
                             .Distinct();
                 var dates = qry
-                            .Select(r => new { date = r[VegetPriceCollector.COL_DATE].ToString() })
+                            .Select(r => new { date = DateTimeHelper.ConvertToDateStr(r[VegetPriceCollector.COL_DATE]) })
                             .Distinct()
                             .OrderBy(x => x.date)
-                            .Select(x => new DataColumn(x.date));
+                            .Select(x => new DataColumn(x.date/*, typeof(double)*/)); /*都当字符串处理*/
 
                 var dtTrans = new DataTable();
                 dtTrans.Columns.Add("名称");
@@ -65,9 +73,10 @@ namespace VegetablePriceWin
                     var r = dtTrans.NewRow();
                     r["名称"] = veg.name;
                     var filterVeg = qry.Where(x => veg.name.Equals(x[VegetPriceCollector.COL_NAME]))
+                                       .GroupBy(x=> DateTimeHelper.ConvertToDateStr(x[VegetPriceCollector.COL_DATE]))
                                        .ToDictionary(
-                                            x => x[VegetPriceCollector.COL_DATE].ToString(),
-                                            x => x[VegetPriceCollector.COL_PRICE].ToString()
+                                            g=>g.Key,
+                                            g=>g.First()[VegetPriceCollector.COL_PRICE]
                                        );
                     foreach(var col in dates)
                     {

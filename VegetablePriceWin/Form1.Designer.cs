@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpBegin = new System.Windows.Forms.DateTimePicker();
-            this.label2 = new System.Windows.Forms.Label();
             this.dtpEnd = new System.Windows.Forms.DateTimePicker();
             this.btnGet = new System.Windows.Forms.Button();
-            this.btnExport = new System.Windows.Forms.Button();
             this.dgView = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -66,7 +67,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 81F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 133F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 71F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 72F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
             this.tableLayoutPanel2.Controls.Add(this.btnExport, 5, 0);
             this.tableLayoutPanel2.Controls.Add(this.label2, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
@@ -80,6 +81,26 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(557, 42);
             this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnExport.Location = new System.Drawing.Point(486, 9);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(65, 23);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "Excel导出";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label2.Location = new System.Drawing.Point(209, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 18);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "结束日期：";
             // 
             // label1
             // 
@@ -101,21 +122,12 @@
             this.dtpBegin.Size = new System.Drawing.Size(108, 20);
             this.dtpBegin.TabIndex = 1;
             // 
-            // label2
-            // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label2.Location = new System.Drawing.Point(210, 12);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 18);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "结束日期：";
-            // 
             // dtpEnd
             // 
             this.dtpEnd.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.dtpEnd.CustomFormat = "yyyy/MM/dd";
             this.dtpEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpEnd.Location = new System.Drawing.Point(283, 11);
+            this.dtpEnd.Location = new System.Drawing.Point(282, 11);
             this.dtpEnd.MinDate = new System.DateTime(2018, 1, 1, 0, 0, 0, 0);
             this.dtpEnd.Name = "dtpEnd";
             this.dtpEnd.Size = new System.Drawing.Size(123, 20);
@@ -124,24 +136,13 @@
             // btnGet
             // 
             this.btnGet.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnGet.Location = new System.Drawing.Point(416, 9);
+            this.btnGet.Location = new System.Drawing.Point(415, 9);
             this.btnGet.Name = "btnGet";
             this.btnGet.Size = new System.Drawing.Size(65, 23);
             this.btnGet.TabIndex = 4;
             this.btnGet.Text = "获取";
             this.btnGet.UseVisualStyleBackColor = true;
             this.btnGet.Click += new System.EventHandler(this.btnGet_Click);
-            // 
-            // btnExport
-            // 
-            this.btnExport.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnExport.Location = new System.Drawing.Point(487, 9);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(65, 23);
-            this.btnExport.TabIndex = 5;
-            this.btnExport.Text = "Excel导出";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // dgView
             // 
@@ -161,6 +162,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(563, 360);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainFrm";
             this.Text = "菜价收集";
             this.tableLayoutPanel1.ResumeLayout(false);

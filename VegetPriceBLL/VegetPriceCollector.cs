@@ -93,15 +93,19 @@ namespace VegetPriceBLL
 
                 if (dDay<dtBegin || dDay > dtEnd)
                 {
+                    dtLast = dDay;
                     bInRange = false;
-                    break; //!
+                    //break; //可能会跳过本页的一些合法记录
                 }
-
-                var dr = dt.NewRow();
-                dr[COL_NAME] = sName;
-                dr[COL_PRICE] = dbPrice;
-                dr[COL_DATE] = dDay;
-                dt.Rows.Add(dr);
+                else
+                {
+                    bInRange = true;
+                    var dr = dt.NewRow();
+                    dr[COL_NAME] = sName;
+                    dr[COL_PRICE] = dbPrice;
+                    dr[COL_DATE] = dDay;
+                    dt.Rows.Add(dr);
+                }                
             }
             return new Tuple<bool, DateTime>(bInRange, dtLast);
         }
